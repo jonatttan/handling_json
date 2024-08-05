@@ -11,26 +11,37 @@ struct Vehicle: Decodable {
 }
 
 let sampleJson = """
-{
-    "nick": "Lemonade",
-    "model": "Palio",
-    "manufacturer": "Fiat",
-    "plate": "mjmj123",
-    "production_year": "2004",
-    "acquisition_year": "2010",
-    "km": "234982"
-}
+[
+    {
+        "nick": "Lemonade",
+        "model": "Palio",
+        "manufacturer": "Fiat",
+        "plate": "mjmj123",
+        "production_year": "2004",
+        "acquisition_year": "2010",
+        "km": "234982"
+    },
+    {
+        "nick": "Pikachu",
+        "model": "Fiesta",
+        "manufacturer": "Ford",
+        "plate": "mjhj321",
+        "production_year": "2000",
+        "acquisition_year": "2008",
+        "km": "234982"
+    },
+]
 """
 
 func decode() {
-    let decodeProduct: Vehicle
+    let decodeProduct: [Vehicle]
     guard let data = sampleJson.data(using: .utf8) else {
         return
     }
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .convertFromSnakeCase
     do {
-        decodeProduct = try decoder.decode(Vehicle.self, from: data)
+        decodeProduct = try decoder.decode([Vehicle].self, from: data)
         print(decodeProduct)
     } catch {
         print("Ops!")
