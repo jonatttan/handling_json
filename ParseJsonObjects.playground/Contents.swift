@@ -5,7 +5,16 @@ struct Vehicle: Decodable {
     let model: String
     let manufacturer: String
     let plate: String
+    let productionYear: String
+    let acquisitionYear: String
     let km: String
+    
+    enum CodingKeys: String, CodingKey {
+        case nick, model, manufacturer, plate,
+             productionYear = "production_year",
+             acquisitionYear = "acquisition_year",
+             km
+    }
 }
 
 let sampleJson = """
@@ -14,6 +23,8 @@ let sampleJson = """
     "model": "Palio",
     "manufacturer": "Fiat",
     "plate": "mjmj123",
+    "production_year": "2004",
+    "acquisition_year": "2010",
     "km": "234982"
 }
 """
