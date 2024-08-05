@@ -8,13 +8,6 @@ struct Vehicle: Decodable {
     let productionYear: String
     let acquisitionYear: String
     let km: String
-    
-    enum CodingKeys: String, CodingKey {
-        case nick, model, manufacturer, plate,
-             productionYear = "production_year",
-             acquisitionYear = "acquisition_year",
-             km
-    }
 }
 
 let sampleJson = """
@@ -35,6 +28,7 @@ func decode() {
         return
     }
     let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
     do {
         decodeProduct = try decoder.decode(Vehicle.self, from: data)
         print(decodeProduct)
