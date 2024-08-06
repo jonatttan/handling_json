@@ -8,7 +8,12 @@ struct Vehicle: Decodable {
     let productionYear: String
     let acquisitionYear: String
     let km: String
-    let maintenanceHistory: [Maintenance]
+    let services: [Maintenance]
+    
+    enum CodingKeys: String, CodingKey {
+        case services = "maintenanceHistory"
+        case nick, model, manufacturer, plate, productionYear, acquisitionYear, km
+    }
     
     struct Maintenance: Decodable {
         let type: String
@@ -81,9 +86,9 @@ func printInformation(vehicle: [Vehicle]) {
         Aquisition year: \(product.acquisitionYear)
         Km: \(product.km)
         """)
-        if !product.maintenanceHistory.isEmpty {
+        if !product.services.isEmpty {
             print("Maintenance history:")
-            product.maintenanceHistory.forEach { maintenance in
+            product.services.forEach { maintenance in
                 print("""
                     Type: \(maintenance.type)
                     Resume: \(maintenance.resume)
