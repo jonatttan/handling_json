@@ -65,11 +65,36 @@ func decode() {
     decoder.keyDecodingStrategy = .convertFromSnakeCase
     do {
         decodeProduct = try decoder.decode([Vehicle].self, from: data)
-        print(decodeProduct)
+        printInformation(vehicle: decodeProduct)
     } catch {
         print("Ops!")
     }
 }
 
+func printInformation(vehicle: [Vehicle]) {
+    vehicle.forEach { product in
+        print("""
+        Nick: \(product.nick)
+        Model: \(product.model)
+        Manufacturer: \(product.manufacturer)
+        Production year: \(product.productionYear)
+        Aquisition year: \(product.acquisitionYear)
+        Km: \(product.km)
+        """)
+        if !product.maintenanceHistory.isEmpty {
+            print("Maintenance history:")
+            product.maintenanceHistory.forEach { maintenance in
+                print("""
+                    Type: \(maintenance.type)
+                    Resume: \(maintenance.resume)
+                    Km: \(maintenance.km)
+                    Price: \(maintenance.price)
+                \n
+                """)
+            }
+        }
+        print("\n\n")
+    }
+}
 decode()
 
