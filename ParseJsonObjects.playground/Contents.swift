@@ -8,6 +8,14 @@ struct Vehicle: Decodable {
     let productionYear: String
     let acquisitionYear: String
     let km: String
+    let maintenanceHistory: [Maintenance]
+    
+    struct Maintenance: Decodable {
+        let type: String
+        let resume: String
+        let km: String
+        let price: String
+    }
 }
 
 let sampleJson = """
@@ -19,7 +27,8 @@ let sampleJson = """
         "plate": "mjmj123",
         "production_year": "2004",
         "acquisition_year": "2010",
-        "km": "234982"
+        "km": "234982",
+        "maintenance_history": []
     },
     {
         "nick": "Pikachu",
@@ -28,7 +37,21 @@ let sampleJson = """
         "plate": "mjhj321",
         "production_year": "2000",
         "acquisition_year": "2008",
-        "km": "234982"
+        "km": "234982",
+        "maintenance_history": [
+            {
+                "type": "Oil",
+                "resume": "Oil change with filter",
+                "km": "235200",
+                "price": "230.00",
+            },
+            {
+                "type": "Brake",
+                "resume": "Change rear pads",
+                "km": "235800",
+                "price": "300.00",
+            },
+        ]
     },
 ]
 """
