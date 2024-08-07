@@ -1,5 +1,6 @@
 import Foundation
 
+// MARK: - Modelos de dados
 struct Vehicle: Decodable {
     let nick: String
     let model: String
@@ -60,6 +61,7 @@ struct Vehicle: Decodable {
     }
 }
 
+// MARK: = Payload JSON
 let sampleJson = """
 [
     {
@@ -110,6 +112,7 @@ let sampleJson = """
 ]
 """
 
+// MARK: - Decodificando o payload
 func decode() {
     let decodeProduct: [Vehicle]
     guard let data = sampleJson.data(using: .utf8) else {
