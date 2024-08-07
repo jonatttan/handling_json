@@ -18,11 +18,14 @@ struct Vehicle: Decodable {
     }
     
     struct Maintenance: Decodable {
-        let type: String
+        let type: MaintenanceType
         let resume: String
         let km: String
         let price: String
-        // Adicionar enum para o type
+        
+        enum MaintenanceType: String, Decodable {
+            case oil, brake, tire, suspension, eletric
+        }
     }
     
     struct Optionals: Decodable {
@@ -73,13 +76,13 @@ let sampleJson = """
         },
         "maintenance_history": [
             {
-                "type": "Oil",
+                "type": "oil",
                 "resume": "Oil change with filter",
                 "km": "235200",
                 "price": "230.00",
             },
             {
-                "type": "Brake",
+                "type": "brake",
                 "resume": "Change rear pads",
                 "km": "235800",
                 "price": "300.00",
@@ -132,7 +135,6 @@ func printInformation(vehicle: [Vehicle]) {
                 """)
             }
         }
-        print("\n\n")
     }
 }
 decode()
