@@ -25,6 +25,21 @@ struct Vehicle: Decodable {
         
         enum MaintenanceType: Int, Decodable {
             case oil, brake, tire, suspension, eletric
+            
+            var title: String {
+                switch self {
+                case .oil:
+                    return "Oil 🛢️"
+                case .brake:
+                    return "Brakes 🛑"
+                case .tire:
+                    return "Tires 🛞"
+                case .suspension: 
+                    return "Suspension ⬇️"
+                case .eletric:
+                    return "Eletric ⚡️"
+                }
+            }
         }
     }
     
@@ -127,7 +142,7 @@ func printInformation(vehicle: [Vehicle]) {
             print("Maintenance history:")
             product.services.forEach { maintenance in
                 print("""
-                 Type: \(maintenance.type)
+                 Type: \(maintenance.type.title)
                  Resume: \(maintenance.resume)
                  Km: \(maintenance.km)
                  Price: \(maintenance.price)
