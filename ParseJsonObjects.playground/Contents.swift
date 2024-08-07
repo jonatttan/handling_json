@@ -23,7 +23,7 @@ struct Vehicle: Decodable {
         let km: String
         let price: String
         
-        enum MaintenanceType: String, Decodable {
+        enum MaintenanceType: Int, Decodable {
             case oil, brake, tire, suspension, eletric
         }
     }
@@ -76,13 +76,13 @@ let sampleJson = """
         },
         "maintenance_history": [
             {
-                "type": "oil",
+                "type": 0,
                 "resume": "Oil change with filter",
                 "km": "235200",
                 "price": "230.00",
             },
             {
-                "type": "brake",
+                "type": 1,
                 "resume": "Change rear pads",
                 "km": "235800",
                 "price": "300.00",
