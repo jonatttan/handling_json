@@ -11,38 +11,10 @@ struct Vehicle: Decodable {
     let km: String
     let services: [Maintenance]
     let optionals: Optionals
-    // Quero forçar a necessidade de init Decoder com nestedContainer
-    
-    init(from decoder: any Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.services = try container.decode([Vehicle.Maintenance].self, forKey: .services)
-        self.nick = try container.decode(String.self, forKey: .nick)
-        self.model = try container.decode(String.self, forKey: .model)
-        self.manufacturer = try container.decode(String.self, forKey: .manufacturer)
-        self.plate = try container.decode(String.self, forKey: .plate)
-        self.productionYear = try container.decode(String.self, forKey: .productionYear)
-        self.acquisitionYear = try container.decode(String.self, forKey: .acquisitionYear)
-        self.km = try container.decode(String.self, forKey: .km)
-        
-        let optionalsNestedObj = try container.nestedContainer(keyedBy: OptionalsKeys.self, forKey: .optionals)
-        let eletricGlass = try optionalsNestedObj.decode(String.self, forKey: .eletricGlass)
-        let airConditioned = try optionalsNestedObj.decode(String.self, forKey: .airConditioned)
-        let alarm = try optionalsNestedObj.decode(String.self, forKey: .alarm)
-        let powerSteering = try optionalsNestedObj.decode(String.self, forKey: .powerSteering)
-        self.optionals = Optionals(eletricGlass: eletricGlass,
-                                   airConditioned: airConditioned,
-                                   alarm: alarm,
-                                   powerSteering: powerSteering)
-    }
     
     enum CodingKeys: String, CodingKey {
         case services = "maintenanceHistory"
         case nick, model, manufacturer, plate, productionYear, acquisitionYear, km, optionals
-    }
-    
-    enum OptionalsKeys: String, CodingKey {
-        case eletricGlass = "automaticGlass"
-        case airConditioned, alarm, powerSteering
     }
     
     struct Maintenance: Decodable {
@@ -58,6 +30,11 @@ struct Vehicle: Decodable {
         let airConditioned: String
         let alarm: String
         let powerSteering: String
+        
+        private enum CodingKeys: String, CodingKey {
+            case eletricGlass = "automaticGlass"
+            case airConditioned, alarm, powerSteering
+        }
     }
 }
 
