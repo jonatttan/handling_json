@@ -9,10 +9,14 @@ struct Vehicle: Decodable {
     let acquisitionYear: String
     let km: String
     let services: [Maintenance]
+    let optionals: Optionals
+    // Quero forçar a necessidade de init Decoder com nestedContainer
+    
+   
     
     enum CodingKeys: String, CodingKey {
         case services = "maintenanceHistory"
-        case nick, model, manufacturer, plate, productionYear, acquisitionYear, km
+        case nick, model, manufacturer, plate, productionYear, acquisitionYear, km, optionals
     }
     
     struct Maintenance: Decodable {
@@ -20,6 +24,13 @@ struct Vehicle: Decodable {
         let resume: String
         let km: String
         let price: String
+    }
+    
+    struct Optionals: Decodable {
+        let automaticGlass: String
+        let airConditioned: String
+        let alarm: String
+        let powerSteering: String
     }
 }
 
@@ -33,6 +44,12 @@ let sampleJson = """
         "production_year": "2004",
         "acquisition_year": "2010",
         "km": "234982",
+        "optionals" : {
+            "automaticGlass": "S",
+            "airConditioned": "N",
+            "alarm": "N",
+            "powerSteering": "S"
+        },
         "maintenance_history": []
     },
     {
@@ -43,6 +60,12 @@ let sampleJson = """
         "production_year": "2000",
         "acquisition_year": "2008",
         "km": "234982",
+        "optionals" : {
+            "automaticGlass": "S",
+            "airConditioned": "S",
+            "alarm": "S",
+            "powerSteering": "S"
+        },
         "maintenance_history": [
             {
                 "type": "Oil",
@@ -85,6 +108,11 @@ func printInformation(vehicle: [Vehicle]) {
         Production year: \(product.productionYear)
         Aquisition year: \(product.acquisitionYear)
         Km: \(product.km)
+        Optionals: 
+         Glass: \(product.optionals.automaticGlass)
+         A.C.: \(product.optionals.airConditioned)
+         Alarm: \(product.optionals.alarm)
+         Power steering: \(product.optionals.powerSteering)\n
         """)
         if !product.services.isEmpty {
             print("Maintenance history:")
