@@ -90,10 +90,10 @@ func printInformation(vehicle: [Vehicle]) {
             print("Maintenance history:")
             product.services.forEach { maintenance in
                 print("""
-                    Type: \(maintenance.type)
-                    Resume: \(maintenance.resume)
-                    Km: \(maintenance.km)
-                    Price: \(maintenance.price)
+                 Type: \(maintenance.type)
+                 Resume: \(maintenance.resume)
+                 Km: \(maintenance.km)
+                 Price: \(maintenance.price)
                 \n
                 """)
             }
