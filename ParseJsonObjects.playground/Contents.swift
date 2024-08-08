@@ -152,5 +152,72 @@ func printInformation(vehicle: [Vehicle]) {
         }
     }
 }
-decode()
+//decode()
 
+
+// MARK: - Brincando com o init Decoder
+let imovelJSON = """
+{
+    "categoria": "casa",
+    "quantidade_quartos": 3,
+    "localizacao": {
+        "rua": "Edelmindo Silveira",
+        "numero": 12,
+        "cep": "88293875"
+    },
+    "observacoes": "FíDumaÉgua"
+}
+"""
+
+struct Imovel: Decodable {
+    let categoria: String
+    let quantidadeQuartos: Int
+    let observacoes: String?
+    
+    let rua: String
+    let numero: Int
+    let cep: String
+}
+
+extension Imovel {
+    private enum CodingKeys: String, CodingKey {
+        case categoria, quantidadeQuartos, observacoes, localizacao
+    }
+    
+    enum LocalizacaoKeys: String, CodingKey {
+        case numero, rua, cep
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.categoria = try container.decode(String.self, forKey: .categoria)
+        self.quantidadeQuartos = try container.decode(Int.self, forKey: .quantidadeQuartos)
+        self.observacoes = try container.decodeIfPresent(String.self, forKey: .observacoes)
+        
+        let nestedContainer = try container.nestedContainer(keyedBy: LocalizacaoKeys.self, forKey: .localizacao)
+        self.rua = try nestedContainer.decode(String.self, forKey: .rua)
+        self.numero = try nestedContainer.decode(Int.self, forKey: .numero)
+        self.cep = try nestedContainer.decode(String.self, forKey: .cep)
+    }
+}
+
+func decodeImovel(data: Data) {
+    let decoder = JSONDecoder()
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    
+    do {
+        let decoded = try decoder.decode(Imovel.self, from: data)
+        printImovel(imovel: decoded)
+    } catch {
+        print(error)
+    }
+    
+}
+
+func printImovel(imovel: Imovel) {
+    print(imovel)
+}
+
+
+decodeImovel(data: Data(imovelJSON.utf8))
