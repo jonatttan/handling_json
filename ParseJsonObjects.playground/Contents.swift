@@ -173,32 +173,12 @@ struct Imovel: Decodable {
     let categoria: String
     let quantidadeQuartos: Int
     let observacoes: String?
+    let localizacao: Localizacao
     
-    let rua: String
-    let numero: Int
-    let cep: String
-}
-
-extension Imovel {
-    private enum CodingKeys: String, CodingKey {
-        case categoria, quantidadeQuartos, observacoes, localizacao
-    }
-    
-    enum LocalizacaoKeys: String, CodingKey {
-        case numero, rua, cep
-    }
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        
-        self.categoria = try container.decode(String.self, forKey: .categoria)
-        self.quantidadeQuartos = try container.decode(Int.self, forKey: .quantidadeQuartos)
-        self.observacoes = try container.decodeIfPresent(String.self, forKey: .observacoes)
-        
-        let nestedContainer = try container.nestedContainer(keyedBy: LocalizacaoKeys.self, forKey: .localizacao)
-        self.rua = try nestedContainer.decode(String.self, forKey: .rua)
-        self.numero = try nestedContainer.decode(Int.self, forKey: .numero)
-        self.cep = try nestedContainer.decode(String.self, forKey: .cep)
+    struct Localizacao: Codable {
+        let rua: String
+        let numero: Int
+        let cep: String
     }
 }
 
@@ -209,21 +189,13 @@ func decodeImovel(data: Data) {
         decoder.dateDecodingStrategy = .secondsSince1970
         let decoded = try decoder.decode(Imovel.self, from: data)
         printImovel(imovel: decoded)
-    } catch DecodingError.dataCorrupted(let context) {
-        print("Context currupted: \(context.debugDescription)")
-    } catch DecodingError.keyNotFound(let codingKey, let context) {
-        print("Context not found: \(context.debugDescription)\n codingKey: \(codingKey)")
-    } catch DecodingError.typeMismatch(_ , let context) {
-        print("Context decoding error: \(context.debugDescription)")
     } catch {
         print(error.localizedDescription)
     }
-    
 }
 
 func printImovel(imovel: Imovel) {
     print(imovel)
 }
-
 
 decodeImovel(data: Data(imovelJSON.utf8))
