@@ -58,4 +58,65 @@ let imovel = Imovel(categoria: "casa",
                         numero: 12,
                         cep: "88293875"))
 
-encodeImovel(imovel: imovel)
+//encodeImovel(imovel: imovel)
+
+// MARK: - Estrutura de dados
+struct Restaurante: Encodable {
+    let id: Int
+    let categoria: String
+    let dono: String
+    
+    private var franquias = [Franquia]()
+    struct Franquia: Encodable {
+        let id: String
+        let endereco: String
+        let responsavel: String
+    }
+    
+    init(id: Int, categoria: String, dono: String) {
+        self.id = id
+        self.categoria = categoria
+        self.dono = dono
+    }
+    
+    internal mutating func addFranquia(id: Int, endereco: String, responsavel: String) {
+        let newFranquia = Franquia(id: "\(self.id)_\(id)", endereco: endereco, responsavel: responsavel)
+        self.franquias.append(newFranquia)
+    }
+}
+
+extension Restaurante {
+    func encode(to encoder: any Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(franquias.compactMap(Sendable.init))
+    }
+    
+    struct Sendable: Encodable {
+        let idFranquia: String
+        
+        init(franquia: Franquia) {
+            self.idFranquia = franquia.id
+        }
+    }
+}
+
+// MARK: - Brincando com Encoder
+func encodeRestaurante(restaurante: Restaurante) {
+    let jsonEncoder = JSONEncoder()
+    jsonEncoder.keyEncodingStrategy = .convertToSnakeCase
+    jsonEncoder.outputFormatting = .prettyPrinted
+    
+    do {
+        let encodedData = try jsonEncoder.encode(restaurante)
+        let encodedJSON = String(data: encodedData, encoding: .utf8) ?? ""
+        print(encodedJSON)
+    } catch {
+        print(error.localizedDescription)
+    }
+}
+
+var restaurante = Restaurante(id: 001, categoria: "FastFood", dono: "Sr Mc Dinalds")
+restaurante.addFranquia(id: 01, endereco: "Copacabana, 321", responsavel: "Odir")
+restaurante.addFranquia(id: 02, endereco: "Tatuapé, 149", responsavel: "Marlene")
+
+encodeRestaurante(restaurante: restaurante)
