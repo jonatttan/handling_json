@@ -12,6 +12,27 @@ struct Imovel: Encodable {
         let numero: Int
         let cep: String
     }
+    
+    enum CodingKeys: CodingKey {
+        case categoria
+        case quantidadeQuartos
+        case observacoes
+        case localizacao
+    }
+    
+    enum AllCodingKey: String, CodingKey {
+        case categoria, quantidadeQuartos, observacoes, rua, numero, cep
+    }
+    
+    func encode(to encoder: any Encoder) throws {
+        var container = encoder.container(keyedBy: AllCodingKey.self)
+        try container.encode(self.categoria, forKey: .categoria)
+        try container.encode(self.quantidadeQuartos, forKey: .quantidadeQuartos)
+        try container.encode(self.observacoes, forKey: .observacoes)
+        try container.encode(self.localizacao.rua, forKey: .rua)
+        try container.encode(self.localizacao.numero, forKey: .numero)
+        try container.encode(self.localizacao.cep, forKey: .cep)
+    }
 }
 
 // MARK: - Brincando com Encoder
