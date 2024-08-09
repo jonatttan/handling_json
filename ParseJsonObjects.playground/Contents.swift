@@ -18,6 +18,7 @@ struct Imovel: Encodable {
 func encodeImovel(imovel: Imovel) {
     let jsonEncoder = JSONEncoder()
     jsonEncoder.keyEncodingStrategy = .convertToSnakeCase
+    jsonEncoder.outputFormatting = .prettyPrinted
     
     do {
         let encodedData = try jsonEncoder.encode(imovel)
