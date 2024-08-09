@@ -203,14 +203,20 @@ extension Imovel {
 }
 
 func decodeImovel(data: Data) {
-    let decoder = JSONDecoder()
-    decoder.keyDecodingStrategy = .convertFromSnakeCase
-    
     do {
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        decoder.dateDecodingStrategy = .secondsSince1970
         let decoded = try decoder.decode(Imovel.self, from: data)
         printImovel(imovel: decoded)
+    } catch DecodingError.dataCorrupted(let context) {
+        print("Context currupted: \(context.debugDescription)")
+    } catch DecodingError.keyNotFound(let codingKey, let context) {
+        print("Context not found: \(context.debugDescription)\n codingKey: \(codingKey)")
+    } catch DecodingError.typeMismatch(_ , let context) {
+        print("Context decoding error: \(context.debugDescription)")
     } catch {
-        print(error)
+        print(error.localizedDescription)
     }
     
 }
