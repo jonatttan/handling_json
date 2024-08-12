@@ -71,6 +71,7 @@ struct Restaurante: Encodable {
         let id: String
         let endereco: String
         let responsavel: String
+        let dataAbertura: Date
     }
     
     init(id: Int, categoria: String, dono: String) {
@@ -79,24 +80,9 @@ struct Restaurante: Encodable {
         self.dono = dono
     }
     
-    internal mutating func addFranquia(id: Int, endereco: String, responsavel: String) {
-        let newFranquia = Franquia(id: "\(self.id)_\(id)", endereco: endereco, responsavel: responsavel)
+    internal mutating func addFranquia(id: Int, endereco: String, responsavel: String, dataAbertura: Date) {
+        let newFranquia = Franquia(id: "\(self.id)_\(id)", endereco: endereco, responsavel: responsavel, dataAbertura: dataAbertura)
         self.franquias.append(newFranquia)
-    }
-}
-
-extension Restaurante {
-    func encode(to encoder: any Encoder) throws {
-        var container = encoder.singleValueContainer()
-        try container.encode(franquias.compactMap(Sendable.init))
-    }
-    
-    struct Sendable: Encodable {
-        let idFranquia: String
-        
-        init(franquia: Franquia) {
-            self.idFranquia = franquia.id
-        }
     }
 }
 
@@ -116,7 +102,7 @@ func encodeRestaurante(restaurante: Restaurante) {
 }
 
 var restaurante = Restaurante(id: 001, categoria: "FastFood", dono: "Sr Mc Dinalds")
-restaurante.addFranquia(id: 01, endereco: "Copacabana, 321", responsavel: "Odir")
-restaurante.addFranquia(id: 02, endereco: "Tatuapé, 149", responsavel: "Marlene")
+restaurante.addFranquia(id: 01, endereco: "Copacabana, 321", responsavel: "Odir", dataAbertura: Date.now)
+restaurante.addFranquia(id: 02, endereco: "Tatuapé, 149", responsavel: "Marlene", dataAbertura: Date(timeIntervalSince1970: 1680832800))
 
 encodeRestaurante(restaurante: restaurante)
