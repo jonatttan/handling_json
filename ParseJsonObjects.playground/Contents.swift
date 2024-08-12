@@ -93,6 +93,8 @@ func encodeRestaurante(restaurante: Restaurante) {
     
     let dateFormater = DateFormatter()
     dateFormater.dateStyle = .full
+    dateFormater.timeStyle = .full
+    
     jsonEncoder.dateEncodingStrategy = .formatted(dateFormater)
     
     jsonEncoder.outputFormatting = .prettyPrinted
