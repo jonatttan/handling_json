@@ -90,6 +90,7 @@ struct Restaurante: Encodable {
 func encodeRestaurante(restaurante: Restaurante) {
     let jsonEncoder = JSONEncoder()
     jsonEncoder.keyEncodingStrategy = .convertToSnakeCase
+    jsonEncoder.dateEncodingStrategy = .iso8601
     jsonEncoder.outputFormatting = .prettyPrinted
     
     do {
