@@ -90,7 +90,11 @@ struct Restaurante: Encodable {
 func encodeRestaurante(restaurante: Restaurante) {
     let jsonEncoder = JSONEncoder()
     jsonEncoder.keyEncodingStrategy = .convertToSnakeCase
-    jsonEncoder.dateEncodingStrategy = .millisecondsSince1970
+    
+    let dateFormater = DateFormatter()
+    dateFormater.dateStyle = .full
+    jsonEncoder.dateEncodingStrategy = .formatted(dateFormater)
+    
     jsonEncoder.outputFormatting = .prettyPrinted
     
     do {
