@@ -110,9 +110,7 @@ let sampleJson = """
 // MARK: - Decodificando o payload
 func decode() {
     let decodeProduct: [Vehicle]
-    guard let data = sampleJson.data(using: .utf8) else {
-        return
-    }
+    let data = Data(sampleJson.utf8)
     let decoder = JSONDecoder()
     decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "+Infinity",
                                                                     negativeInfinity: "-Infinity",
