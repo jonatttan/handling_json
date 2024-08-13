@@ -1,7 +1,7 @@
 import Foundation
 
 // MARK: - Modelos de dados
-struct Vehicle: Decodable {
+struct Vehicle: Codable {
     let nick: String
     let model: String
     let manufacturer: String
@@ -17,13 +17,13 @@ struct Vehicle: Decodable {
         case nick, model, manufacturer, plate, productionYear, acquisitionYear, km, optionals
     }
     
-    struct Maintenance: Decodable {
+    struct Maintenance: Codable {
         let type: MaintenanceType
         let resume: String
         let km: Double?
         let price: String
         
-        enum MaintenanceType: Int, Decodable {
+        enum MaintenanceType: Int, Codable {
             case oil, brake, tire, suspension, eletric
             
             var title: String {
@@ -43,7 +43,7 @@ struct Vehicle: Decodable {
         }
     }
     
-    struct Optionals: Decodable {
+    struct Optionals: Codable {
         let eletricGlass: String
         let airConditioned: String
         let alarm: String
