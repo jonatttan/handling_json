@@ -154,8 +154,60 @@ func printInformation(vehicle: [Vehicle]) {
     }
 }
 
-let vehicleModelList = decode()
-printInformation(vehicle: vehicleModelList)
+//let vehicleModelList = decode()
+//printInformation(vehicle: vehicleModelList)
+
+
+// MARK: - Decode encripted data
+func encodeVehiclesToBase64(vehicle: [Vehicle]) -> String {
+    let encoder = JSONEncoder()
+    encoder.nonConformingFloatEncodingStrategy = .convertToString(positiveInfinity: "+Infinity",
+                                                                  negativeInfinity: "-Infinity",
+                                                                  nan: "NaN")
+    do {
+        let encoded = try encoder.encode(vehicle)
+        return encoded.base64EncodedString()
+    } catch {
+        return "encoding error"
+    }
+}
+
+func decodeVehiclesFromBase64(encriptedString: String) -> [Vehicle] {
+    var decodeProduct = [Vehicle]()
+    guard let data = Data(base64Encoded: encriptedString) else {
+        return decodeProduct
+    }
+    let decoder = JSONDecoder()
+    decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "+Infinity",
+                                                                    negativeInfinity: "-Infinity",
+                                                                    nan: "NaN")
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    do {
+        decodeProduct = try decoder.decode([Vehicle].self, from: data)
+    } catch {
+        print("decoding error")
+    }
+    return decodeProduct
+}
+
+let vehicle = Vehicle(nick: "", model: "",
+                      manufacturer: "",
+                      plate: "",
+                      productionYear: "",
+                      acquisitionYear: "",
+                      km: 0,
+                      services: [],
+                      optionals: .init(eletricGlass: "S",
+                                       airConditioned: "S",
+                                       alarm: "S",
+                                       powerSteering: "S")
+)
+
+let encodedString = encodeVehiclesToBase64(vehicle: decode())
+print(encodedString)
+
+let decodedString = decodeVehiclesFromBase64(encriptedString: encodedString)
+printInformation(vehicle: decodedString)
 
 // MARK: - Brincando com o init Decoder
 let imovelJSON = """
