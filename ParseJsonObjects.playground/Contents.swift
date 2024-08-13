@@ -108,8 +108,8 @@ let sampleJson = """
 """
 
 // MARK: - Decodificando o payload
-func decode() {
-    let decodeProduct: [Vehicle]
+func decode() -> [Vehicle] {
+    var decodeProduct = [Vehicle]()
     let data = Data(sampleJson.utf8)
     let decoder = JSONDecoder()
     decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "+Infinity",
@@ -118,10 +118,10 @@ func decode() {
     decoder.keyDecodingStrategy = .convertFromSnakeCase
     do {
         decodeProduct = try decoder.decode([Vehicle].self, from: data)
-        printInformation(vehicle: decodeProduct)
     } catch {
         print("Ops!")
     }
+    return decodeProduct
 }
 
 func printInformation(vehicle: [Vehicle]) {
@@ -153,8 +153,9 @@ func printInformation(vehicle: [Vehicle]) {
         }
     }
 }
-decode()
 
+let vehicleModelList = decode()
+printInformation(vehicle: vehicleModelList)
 
 // MARK: - Brincando com o init Decoder
 let imovelJSON = """
