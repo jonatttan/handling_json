@@ -82,7 +82,7 @@ let sampleJson = """
         "plate": "mjhj321",
         "production_year": "2000",
         "acquisition_year": "2008",
-        "km": 234.982,
+        "km": "NaN",
         "optionals" : {
             "automaticGlass": "S",
             "airConditioned": "S",
@@ -93,13 +93,13 @@ let sampleJson = """
             {
                 "type": 0,
                 "resume": "Oil change with filter",
-                "km": 235.200,
+                "km": "-Infinity",
                 "price": "230.00",
             },
             {
                 "type": 1,
                 "resume": "Change rear pads",
-                "km": 235.800,
+                "km": "+Infinity",
                 "price": "300.00",
             },
         ]
@@ -114,6 +114,9 @@ func decode() {
         return
     }
     let decoder = JSONDecoder()
+    decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "+Infinity",
+                                                                    negativeInfinity: "-Infinity",
+                                                                    nan: "NaN")
     decoder.keyDecodingStrategy = .convertFromSnakeCase
     do {
         decodeProduct = try decoder.decode([Vehicle].self, from: data)
