@@ -8,7 +8,7 @@ struct Vehicle: Decodable {
     let plate: String
     let productionYear: String
     let acquisitionYear: String
-    let km: String
+    let km: Double?
     let services: [Maintenance]
     let optionals: Optionals
     
@@ -20,7 +20,7 @@ struct Vehicle: Decodable {
     struct Maintenance: Decodable {
         let type: MaintenanceType
         let resume: String
-        let km: String
+        let km: Double?
         let price: String
         
         enum MaintenanceType: Int, Decodable {
@@ -66,7 +66,7 @@ let sampleJson = """
         "plate": "mjmj123",
         "production_year": "2004",
         "acquisition_year": "2010",
-        "km": "234982",
+        "km": 234.982,
         "optionals" : {
             "automaticGlass": "S",
             "airConditioned": "N",
@@ -82,7 +82,7 @@ let sampleJson = """
         "plate": "mjhj321",
         "production_year": "2000",
         "acquisition_year": "2008",
-        "km": "234982",
+        "km": 234.982,
         "optionals" : {
             "automaticGlass": "S",
             "airConditioned": "S",
@@ -93,13 +93,13 @@ let sampleJson = """
             {
                 "type": 0,
                 "resume": "Oil change with filter",
-                "km": "235200",
+                "km": 235.200,
                 "price": "230.00",
             },
             {
                 "type": 1,
                 "resume": "Change rear pads",
-                "km": "235800",
+                "km": 235.800,
                 "price": "300.00",
             },
         ]
@@ -131,7 +131,7 @@ func printInformation(vehicle: [Vehicle]) {
         Manufacturer: \(product.manufacturer)
         Production year: \(product.productionYear)
         Aquisition year: \(product.acquisitionYear)
-        Km: \(product.km)
+        Km: \(product.km ?? 0)
         Optionals: 
          Glass: \(product.optionals.eletricGlass)
          A.C.: \(product.optionals.airConditioned)
@@ -144,7 +144,7 @@ func printInformation(vehicle: [Vehicle]) {
                 print("""
                  Type: \(maintenance.type.title)
                  Resume: \(maintenance.resume)
-                 Km: \(maintenance.km)
+                 Km: \(maintenance.km ?? 0)
                  Price: \(maintenance.price)
                 \n
                 """)
@@ -152,7 +152,7 @@ func printInformation(vehicle: [Vehicle]) {
         }
     }
 }
-//decode()
+decode()
 
 
 // MARK: - Brincando com o init Decoder
@@ -198,4 +198,4 @@ func printImovel(imovel: Imovel) {
     print(imovel)
 }
 
-decodeImovel(data: Data(imovelJSON.utf8))
+//decodeImovel(data: Data(imovelJSON.utf8))
