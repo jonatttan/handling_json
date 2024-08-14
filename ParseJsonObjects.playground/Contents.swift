@@ -108,9 +108,9 @@ let sampleJson = """
 """
 
 // MARK: - Decodificando o payload
-func decode() -> [Vehicle] {
+func decode(from jsonString: String) -> [Vehicle] {
     var decodeProduct = [Vehicle]()
-    let data = Data(sampleJson.utf8)
+    let data = Data(jsonString.utf8)
     let decoder = JSONDecoder()
     decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "+Infinity",
                                                                     negativeInfinity: "-Infinity",
@@ -154,8 +154,8 @@ func printInformation(vehicle: [Vehicle]) {
     }
 }
 
-//let vehicleModelList = decode()
-//printInformation(vehicle: vehicleModelList)
+let vehicleModelList = decode(from: sampleJson)
+printInformation(vehicle: vehicleModelList)
 
 
 // MARK: - Decode encripted data
@@ -203,7 +203,7 @@ let vehicle = Vehicle(nick: "", model: "",
                                        powerSteering: "S")
 )
 
-let encodedString = encodeVehiclesToBase64(vehicle: decode())
+let encodedString = encodeVehiclesToBase64(vehicle: decode(from: sampleJson))
 print(encodedString)
 
 let decodedString = decodeVehiclesFromBase64(encriptedString: encodedString)
@@ -252,4 +252,4 @@ func printImovel(imovel: Imovel) {
     print(imovel)
 }
 
-//decodeImovel(data: Data(imovelJSON.utf8))
+decodeImovel(data: Data(imovelJSON.utf8))
