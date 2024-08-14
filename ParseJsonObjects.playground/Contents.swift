@@ -155,7 +155,7 @@ func printInformation(vehicle: [Vehicle]) {
 }
 
 let vehicleModelList = decode(from: sampleJson)
-printInformation(vehicle: vehicleModelList)
+//printInformation(vehicle: vehicleModelList)
 
 
 // MARK: - Decode encripted data
@@ -204,10 +204,52 @@ let vehicle = Vehicle(nick: "", model: "",
 )
 
 let encodedString = encodeVehiclesToBase64(vehicle: decode(from: sampleJson))
-print(encodedString)
+//print(encodedString)
 
 let decodedString = decodeVehiclesFromBase64(encriptedString: encodedString)
-printInformation(vehicle: decodedString)
+//printInformation(vehicle: decodedString)
+
+
+// MARK: - Brincando com decode de arquivo json
+func getJsonArchive(name: String) -> Data? {
+    let data: Data
+    guard let url = Bundle.main.url(forResource: name, withExtension: "json") else {
+        print("error url")
+        return nil
+    }
+    do {
+        data = try Data(contentsOf: url)
+        return data
+    } catch {
+        print(error.localizedDescription)
+        return nil
+    }
+}
+
+func decodeJsonArchive(name: String) -> [Vehicle] {
+    guard let data = getJsonArchive(name: name) else {
+        print("Get archive error")
+        return []
+    }
+    
+    let decoder = JSONDecoder()
+    decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "+Infinity",
+                                                                    negativeInfinity: "-Infinity",
+                                                                    nan: "NaN")
+    decoder.keyDecodingStrategy = .convertFromSnakeCase
+    do {
+        let decoded = try decoder.decode([Vehicle].self, from: data)
+        return decoded
+        
+    } catch {
+        print(error.localizedDescription)
+        return []
+    }
+}
+
+let jsonArchiveDecoded = decodeJsonArchive(name: "vehicles")
+printInformation(vehicle: jsonArchiveDecoded)
+
 
 // MARK: - Brincando com o init Decoder
 let imovelJSON = """
@@ -252,4 +294,4 @@ func printImovel(imovel: Imovel) {
     print(imovel)
 }
 
-decodeImovel(data: Data(imovelJSON.utf8))
+//decodeImovel(data: Data(imovelJSON.utf8))

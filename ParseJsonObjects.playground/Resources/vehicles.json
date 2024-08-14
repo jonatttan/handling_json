@@ -1,0 +1,47 @@
+[
+    {
+        "nick": "Patholi",
+        "model": "Palio",
+        "manufacturer": "Fiat",
+        "plate": "mjmj123",
+        "production_year": "2004",
+        "acquisition_year": "2010",
+        "km": 234.982,
+        "optionals" : {
+            "automaticGlass": "S",
+            "airConditioned": "N",
+            "alarm": "N",
+            "powerSteering": "S"
+        },
+        "maintenance_history": []
+    },
+    {
+        "nick": "Pikachu",
+        "model": "Fiesta",
+        "manufacturer": "Ford",
+        "plate": "mjhj321",
+        "production_year": "2000",
+        "acquisition_year": "2008",
+        "km": "NaN",
+        "optionals" : {
+            "automaticGlass": "S",
+            "airConditioned": "S",
+            "alarm": "S",
+            "powerSteering": "S"
+        },
+        "maintenance_history": [
+            {
+                "type": 0,
+                "resume": "Oil change with filter",
+                "km": "-Infinity",
+                "price": "230.00",
+            },
+            {
+                "type": 1,
+                "resume": "Change rear pads",
+                "km": "+Infinity",
+                "price": "300.00",
+            },
+        ]
+    },
+]
