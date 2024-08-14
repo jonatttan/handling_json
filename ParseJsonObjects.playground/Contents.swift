@@ -227,24 +227,16 @@ func getJsonArchive(name: String) -> Data? {
 }
 
 func decodeJsonArchive(name: String) -> [Vehicle] {
-    guard let data = getJsonArchive(name: name) else {
-        print("Get archive error")
-        return []
+    var vehicles = [Vehicle]()
+    
+    guard let data = getJsonArchive(name: name),
+          let jsonString = String(data: data, encoding: .utf8) else {
+        print("Get archive ou parse to String error")
+        return vehicles
     }
     
-    let decoder = JSONDecoder()
-    decoder.nonConformingFloatDecodingStrategy = .convertFromString(positiveInfinity: "+Infinity",
-                                                                    negativeInfinity: "-Infinity",
-                                                                    nan: "NaN")
-    decoder.keyDecodingStrategy = .convertFromSnakeCase
-    do {
-        let decoded = try decoder.decode([Vehicle].self, from: data)
-        return decoded
-        
-    } catch {
-        print(error.localizedDescription)
-        return []
-    }
+    let decoded = decode(from: jsonString)
+    return decoded
 }
 
 let jsonArchiveDecoded = decodeJsonArchive(name: "vehicles")
