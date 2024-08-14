@@ -41,3 +41,33 @@ decode()
 ```
 Mais detalhes no [commit](https://github.com/jonatttan/handling_json/commit/3412828ba6c2261444479e22797d8114b7002bc7)
 
+##### > Trabalhando com Codingeys...
+Adicionando mais campos ao JSON, agora com nomes compostos em snake_case (padrão em JSON) e atributos ao struct com CodingKeys para obtermos os dados em snakeCase. Não creio ser a abordagem ideal para o Swift, mais tarde veremos que na versão 4.1 foi introduzida uma solução mais elegante.
+
+```Swift
+import Foundation
+
+struct Vehicle: Decodable {
+    ...
+    let productionYear: String
+
+    enum CodingKeys: String, CodingKey {
+        case nick, km,
+             productionYear = "production_year"
+    }
+}
+
+let sampleJson = """
+{
+    ...
+    "production_year": "2004",
+}
+"""
+
+func decode() {
+    ...
+}
+
+decode()
+```
+Mais detalhes no [commit](https://github.com/jonatttan/handling_json/commit/ccaf475e4a22c7c0df46a81f6a2c09af08ef14e5)
