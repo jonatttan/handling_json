@@ -85,3 +85,35 @@ func decode() {
 }
 ```
 Mais detalhes no [commit](https://github.com/jonatttan/handling_json/commit/e9c817a8be0670b143ee43cf4d13c0ac17b3ffef)
+
+##### > Decodando lista de objetos...
+Até aqui decodamos um objeto que recebemos por JSON, agora veremos como decodar uma lista de objetos veículo.
+Fazendo um pequeno ajuste no JSON (nesse caso, uma variável local), colocamos colchetes no início e fim, adicionamos uma vírgula ao fim do primeiro objeto e adicionamos outro. 
+Já no Swift, indicamos que o atributo/ variável vai receber uma lista de objetos e no decode indicamos que deve ser decodado para o tipo lista desse objeto.
+
+```Swift
+let sampleJson = """
+[
+    {
+        "nick": "Lemonade",
+        ...
+    },
+    {
+        "nick": "Pikachu",
+        ...
+    },
+]
+"""
+...
+
+func decode() {
+    let decodeProduct: [Vehicle]
+    ...
+    do {
+        decodeProduct = try decoder.decode([Vehicle].self, from: data)
+        ...
+    } 
+    ...
+```
+Mais detalhes no [commit](https://github.com/jonatttan/handling_json/commit/8f472c282d1ee796c1be1bc8c63c835ea09f11d3)
+
