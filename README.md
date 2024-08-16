@@ -117,3 +117,18 @@ func decode() {
 ```
 Mais detalhes no [commit](https://github.com/jonatttan/handling_json/commit/8f472c282d1ee796c1be1bc8c63c835ea09f11d3)
 
+
+
+Referências:
+https://developer.apple.com/documentation/foundation/archives_and_serialization/encoding_and_decoding_custom_types (Aqui você entende um pouco a diferença entre os três protocolos, os tipos que oferecem conformidade por padrão, CodingKeys, codificação e decodificação manual com inits e outras coizinhas.)
+
+https://www.alura.com.br/artigos/ios-swift-conversao-dados-codable-encodable-decodable (Aqui você encontra um pouco mais de exemplos desenho estrutural JSON, além é claro do Swift atuando com conversão Data, Codables/ Decodables e o uso do JSONDecoder/ JSONencoder.)
+
+https://dev.to/reisdev/como-decodificar-json-em-swift-2dpe (Nesse artigo você vai encontrar mais exemplos de uso, além de como trazer o arquivo JSON pra dentro do seu código - deixando de usar aquela variável local.)
+
+https://mateusfsilvablog.wordpress.com/2018/03/02/decodificando-json-com-swift-4/ (Particulamente, eu gostei muito desse. Tem bastante exemplos de código, ensina a usar as ferramentas do JSONEncoder/ JSONDecoder para traduzir os camelCases em snake_case e vice-versa, formatação de datas, números decimais, custom decode - a manual com init - e outros. Ah.. E esse cara possui um "Parte 2". 😉).
+
+https://developer.apple.com/documentation/foundation/jsondecoder (Um breve exemplo de decoder.)
+
+Bônus:
+Para entender um pouco mais sobre as datas eu dei uma lida [aqui](https://www.swiftyplace.com/blog/swift-date-formatting-10-steps-guide#:~:text=Creating%20a%20current%20date%20in,based%20on%20the%20system%20clock.)
