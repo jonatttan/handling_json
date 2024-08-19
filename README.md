@@ -117,6 +117,74 @@ func decode() {
 ```
 Mais detalhes no [commit](https://github.com/jonatttan/handling_json/commit/8f472c282d1ee796c1be1bc8c63c835ea09f11d3)
 
+##### > Decodando lista de objetos contendo lista de objetos...
+E quando em uma estrutura de dados queremos definir um atributo que tem como tipo outra strutura? E digo mais, uma lista de objetos de outra estrutura. Pois bem, em alguns casos iremos nos deparar com algo assim, portanto veremos que não é aquele bicho de sete cabeças. 
+No json usamos novamente os colchetes "[]" depois do nome do atributo para indicar lista, dentro definimos o escopo do primeiro objeto indicado por chaves "{}", nele os atributos, e assim por diante.
+Já no Swift, definimos o atributo na struct com esse tipo em forma de lista.
+
+```Swift
+struct Vehicle: Decodable {
+    let nick: String
+    ...
+    let maintenanceHistory: [Maintenance]
+
+    struct Maintenance: Decodable {
+        let type: String
+        let resume: String
+        let km: String
+        let price: String
+    }
+}
+
+let sampleJson = """
+[
+    {
+        "nick": "Lemonade",
+        ...
+        "maintenance_history": []
+    },
+    {
+        "nick": "Pikachu",
+        ...
+        "km": "234982",
+        "maintenance_history": [
+            {
+                "type": "Oil",
+                "resume": "Oil change with filter",
+                "km": "235200",
+                "price": "230.00",
+            },
+            {
+                "type": "Brake",
+                "resume": "Change rear pads",
+                "km": "235800",
+                "price": "300.00",
+            },
+        ]
+    }
+]
+"""
+```
+Mais detalhes no [commit](https://github.com/jonatttan/handling_json/commit/563712a94360dbddf546ef84b7ed6a74970b4046)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Referências:
