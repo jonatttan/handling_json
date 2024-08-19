@@ -167,7 +167,7 @@ let sampleJson = """
 ```
 Mais detalhes no [commit](https://github.com/jonatttan/handling_json/commit/563712a94360dbddf546ef84b7ed6a74970b4046)
 
-##### > Trabalhando com Codingeys 2 - Nomes diferentes...
+##### > Trabalhando com CodingKeys 2 - Nomes diferentes...
 E se quisermos definir localmente um nome diferente a determinado atributo que vem no JSON? Talvez um nome que faça mais sentido no contexto do nosso código. Muito simples, basta dar o nome desejado na definição desse atributo no Swift e o relacionar com o nome que vem no JSON através do CodingKeys.
 
 ```Swift
@@ -186,6 +186,58 @@ struct Vehicle: Decodable {
 Mais detalhes no [commit](https://github.com/jonatttan/handling_json/commit/caa3fa1f86e43bdac7b682731e7c1ee298a17795)
 
 
+##### > Enum (enumeradores)...
+Podemos usar no Swift enumeradores quando temos um campo no JSON cujo o seu valor será sempre uma das variações predefinidas. No exemplo abaixo, no atributo type da Struct Maintenance, esperamos os valores `oil` , `brakes`, `tire`, `suspension` ou `eletric`. Observe que o enum é do tipo <span style="color: red;">Int</span>, então caso queira poupar dados de tráfego - ou por qualquer outro motivo - pode ainda, para este caso, enviar valores de 0 a 4 para as opções disponíveis.
+
+```Swift
+struct Vehicle: Decodable {
+    ...
+    let services: [Maintenance]
+    ...
+
+    enum CodingKeys: String, CodingKey {
+        case services = "maintenanceHistory"
+        ...
+    }
+
+struct Maintenance: Decodable {
+    let type: MaintenanceType
+    ...
+
+    enum MaintenanceType: Int, Decodable {
+        case oil, brake, tire, suspension, eletric
+    }
+}
+
+let sampleJson = """
+[
+    {
+        "nick": "Lemonade",
+        ...
+        "maintenance_history": []
+    },
+    {
+        "nick": "Pikachu",
+        ...
+        "maintenance_history": [
+            {
+                "type": "oil",
+                ...
+            },
+            {
+                "type": "brake",
+                ...
+            },
+            {
+                "type": 3,
+                ...
+            }
+        ]
+    }
+]
+"""
+```
+Mais detalhes no [commit](https://github.com/jonatttan/handling_json/commit/b08db0709bb1da358bc8567dfe109824c96fed19)
 
 
 
